@@ -1,70 +1,78 @@
-# QMS TAT Monitor
+# AI-Powered Laboratory Operations Command Center
 
-## Autonomous Laboratory Operations Intelligence Platform
+## QMS TAT Monitor
 
-QMS TAT Monitor is an intelligent laboratory operations platform designed to improve Quality Management Systems (QMS), Turnaround Time (TAT) monitoring, workflow execution, audit visibility, compliance reporting, and operational decision-making across clinical laboratory environments.
+QMS TAT Monitor is an AI-powered Laboratory Operations Intelligence Platform designed to help clinical laboratories improve turnaround time (TAT), workflow execution, quality management, compliance monitoring, audit governance, and operational visibility.
 
-The platform combines workflow intelligence, event-driven automation, audit persistence, compliance monitoring, historical replay, and executive operations management into a unified command center.
+The platform provides a centralized command center where laboratory teams can monitor requests in real time, manage department-specific workflows, track compliance performance, investigate historical events, and gain actionable operational insights.
 
-Unlike traditional laboratory dashboards that only display metrics, QMS TAT Monitor actively tracks, analyzes, and orchestrates laboratory operations from request creation through execution, compliance review, and executive oversight.
+By combining workflow intelligence, event-driven automation, audit persistence, historical replay, and executive reporting, QMS TAT Monitor transforms laboratory operations from reactive management into proactive operational intelligence.
 
 ---
 
-# The Problem
+## The Problem
 
-Clinical laboratories face several operational challenges:
+Clinical laboratories often struggle with:
 
 * Missed turnaround time (TAT) targets
-* Poor workflow visibility
-* Delayed escalation of incidents
-* Limited audit traceability
+* Limited workflow visibility
+* Delayed escalation of operational incidents
 * Manual compliance tracking
-* Lack of operational intelligence
-* Difficulty identifying workflow bottlenecks
+* Incomplete audit trails
 * Fragmented reporting systems
+* Difficulty identifying process bottlenecks
+* Limited operational intelligence for decision-making
 
-Many laboratories only discover operational issues after service quality has already been affected.
+In many cases, operational issues are discovered only after service quality, compliance, or patient care has been affected.
 
 ---
 
-# The Solution
+## The Solution
 
-QMS TAT Monitor provides a centralized operational intelligence platform that enables laboratories to:
+QMS TAT Monitor provides a unified operational intelligence platform that enables laboratories to:
 
 * Monitor requests in real time
-* Track workflow execution
-* Detect operational risks
-* Maintain audit trails
-* Measure compliance performance
-* Visualize historical decisions
-* Analyze workflow bottlenecks
-* Support executive decision-making
-
-The platform is designed to evolve from a monitoring system into a complete Laboratory Operations Intelligence Platform.
+* Track workflow execution across departments
+* Measure SLA and compliance performance
+* Detect operational risks and bottlenecks
+* Maintain complete audit trails
+* Investigate historical decisions and events
+* Support executive and management reporting
+* Improve laboratory efficiency through data-driven insights
 
 ---
 
-# Core Features
+## Key Capabilities
 
-## Quality Management Monitoring
+### Real-Time TAT Monitoring
 
-Track laboratory requests, service levels, performance metrics, and compliance indicators.
+Monitor laboratory performance through live operational metrics and service-level tracking.
 
-### Capabilities
+**Capabilities**
 
+* Turnaround Time (TAT) monitoring
+* Service Level Agreement (SLA) tracking
 * Request monitoring
-* SLA tracking
-* TAT monitoring
-* Operational analytics
-* Performance reporting
+* Performance analytics
+* Operational reporting
 
 ---
 
-## Dynamic Workflow Intelligence Engine
+### Dynamic Workflow Intelligence Engine
 
-Administrators can create department-specific workflows instead of relying on hardcoded laboratory processes.
+Create and manage department-specific workflows without hardcoded laboratory processes.
 
-### Example: Haematology
+**Workflow Features**
+
+* Workflow designer
+* Stage management
+* Transition management
+* Assignment management
+* Workflow execution tracking
+* Workflow analytics
+* Workflow auditing
+
+**Example Workflow**
 
 Sample Reception
 
@@ -72,213 +80,116 @@ Sample Reception
 
 → Analysis
 
-→ QC Review
+→ Quality Control Review
 
 → Scientist Validation
 
 → Result Release
 
-### Example: Histopathology
-
-Sample Reception
-
-→ Gross Examination
-
-→ Tissue Processing
-
-→ Sectioning
-
-→ Staining
-
-→ Consultant Review
-
-→ Result Release
-
-### Workflow Features
-
-* Workflow designer
-* Workflow builder
-* Stage management
-* Transition management
-* Assignment management
-* Workflow execution tracking
-* Workflow analytics
-
 ---
 
-## Autonomous Intelligence Runtime
+### Autonomous Operations Intelligence
 
-The platform uses an event-driven architecture to coordinate operational intelligence.
+The platform uses an event-driven architecture to coordinate operational activities across the laboratory.
 
-### Runtime Flow
-
-Request Submitted
-
-↓
-
-REQUEST_CREATED
-
-↓
-
-ALERT_CREATED
-
-↓
-
-INCIDENT_DETECTED
-
-↓
-
-DECISION_CREATED
-
-↓
-
-ORCHESTRATION_TRIGGERED
-
-↓
-
-ACTION_CREATED
-
-↓
-
-ACTION_EXECUTED
-
-↓
-
-EXECUTION_PROPAGATED
-
-↓
-
-COGNITIVE_SIGNAL
-
-↓
-
-Audit & Compliance
-
-↓
-
-Executive Operations
-
-### Intelligence Capabilities
+**Capabilities**
 
 * Alert generation
-* Incident prediction
+* Incident detection
 * Decision automation
-* Execution coordination
 * Operational orchestration
-* Cognitive signal processing
+* Workflow coordination
+* Event propagation
+* Intelligence-driven execution
 
 ---
 
-## Intelligence History & Replay
+### Intelligence History & Replay
 
-Every significant operational event can be archived and reconstructed.
+Every significant operational event can be reconstructed and analyzed.
 
-### Features
+**Features**
 
 * Timeline reconstruction
+* Historical replay
 * Decision replay
-* Execution replay
+* Operational investigations
+* Root-cause analysis
 * Historical analytics
-* Forensic investigations
-* Operational auditing
 
 ---
 
-## Audit Persistence & Compliance
+### Audit & Compliance Management
 
-The platform provides long-term operational accountability.
+Maintain accountability and regulatory readiness through persistent operational records.
 
-### Features
+**Features**
 
-* Audit record management
+* Audit trail management
+* Compliance scoring
 * Decision archiving
 * Execution archiving
-* Compliance scoring
 * Retention management
-* Audit exploration
+* Compliance reporting
 
 ---
 
-## Executive Command Center
+### Executive Command Center
 
-Provides leadership-level visibility across laboratory operations.
+Provides leadership teams with a comprehensive view of laboratory operations.
 
-### Features
+**Features**
 
-* Executive KPI wall
-* Live intelligence feed
-* Operational monitoring
+* Executive KPI dashboards
+* Live operational monitoring
 * Compliance visibility
-* Workflow monitoring
-* Execution monitoring
-* Decision oversight
+* Workflow oversight
+* Operational intelligence feeds
+* Performance reporting
 
 ---
 
-# Supported Laboratory Departments
+## Supported Laboratory Departments
 
-The platform is designed to support multiple laboratory disciplines.
+The platform is designed to support workflows across multiple laboratory disciplines:
 
-### Haematology
-
-* Full Blood Count (FBC/CBC)
-* Blood Film Examination
-* ESR
-* Coagulation Studies
-* Sickle Cell Screening
-
-### Chemical Pathology
-
-* Glucose Testing
-* Liver Function Tests
-* Kidney Function Tests
-* Electrolytes
-* Lipid Profiles
-
-### Medical Microbiology
-
-* Bacteriology
-* Virology
-* Mycology
-* Parasitology
-
-### Histopathology
-
-* Biopsy Processing
-* Tissue Diagnosis
-* Cancer Detection
-* Histological Analysis
-
-### Immunology / Serology
-
-* HIV Screening
-* Hepatitis Screening
-* Autoimmune Testing
-* Serological Analysis
-
-### Blood Banking
-
-* Blood Grouping
-* Crossmatching
-* Donor Screening
-* Compatibility Testing
-
-### Molecular Diagnostics
-
-* PCR Testing
-* Viral Load Monitoring
-* Genetic Analysis
-* Molecular Screening
-
-### Cytology
-
-* Pap Smear Analysis
-* FNAC
-* Cellular Diagnostics
+* Haematology
+* Chemical Pathology
+* Medical Microbiology
+* Histopathology
+* Immunology / Serology
+* Blood Banking
+* Molecular Diagnostics
+* Cytology
 
 ---
 
-# Technology Stack
+## System Architecture
+
+QMS TAT Monitor is built around a modular and event-driven architecture.
+
+### Core Architectural Components
+
+* Workflow Intelligence Engine
+* Event-Driven Runtime
+* Audit Persistence Layer
+* Compliance Management Layer
+* Intelligence History & Replay Engine
+* Executive Operations Layer
+* Operational Analytics Layer
+
+### Architectural Principles
+
+* Event-Driven Architecture
+* Modular Domain Design
+* Repository Pattern
+* Separation of Concerns
+* Scalable Workflow Management
+* Operational Intelligence Integration
+
+---
+
+## Technology Stack
 
 ### Frontend
 
@@ -291,30 +202,45 @@ The platform is designed to support multiple laboratory disciplines.
 
 * Zustand
 
+### Backend
+
+* FastAPI
+* Python
+
+### Database
+
+* PostgreSQL
+
 ### Architecture
 
 * Event-Driven Architecture
-* Modular Domain Architecture
-* Repository Pattern
 * Workflow Engine
-* Audit Persistence Layer
-* Executive Operations Layer
-
-### Core Modules
-
-* Dashboard Runtime
-* Data Entry
-* Intelligence Bus
-* Intelligence History
 * Audit Persistence
-* Executive Command Center
-* Workflow Management
+* Intelligence Replay Engine
+* Executive Monitoring Layer
 
 ---
 
-# Current Development Status
+## Core Modules
 
-## Completed
+* Dashboard Runtime
+* Data Entry
+* Workflow Management
+* Intelligence Bus
+* Intelligence History
+* Audit Persistence
+* Compliance Reporting
+* Executive Command Center
+
+---
+
+## Development Status
+
+### Current Phase
+
+**Phase 19 — Dynamic Workflow Intelligence Engine**
+
+### Completed
 
 * Dashboard Runtime
 * Intelligence Bus
@@ -325,13 +251,7 @@ The platform is designed to support multiple laboratory disciplines.
 * Compliance Reporting
 * Executive Command Center
 
-## In Progress
-
-### Phase 19
-
-Dynamic Workflow Intelligence Engine
-
-Current focus:
+### In Progress
 
 * Workflow Runtime
 * Workflow Analytics
@@ -339,11 +259,9 @@ Current focus:
 * Workflow Audit
 * Executive Workflow Operations
 
-## Planned
+### Planned
 
-### Phase 20
-
-Production Readiness
+**Phase 20 — Production Readiness**
 
 * Integration Testing
 * System Testing
@@ -354,29 +272,22 @@ Production Readiness
 
 ---
 
-# Vision
+## Vision
 
-The long-term vision is to build a comprehensive Laboratory Operations Intelligence Platform capable of supporting healthcare organizations through:
-
-* Quality Management
-* Workflow Automation
-* Operational Intelligence
-* Compliance Monitoring
-* Audit Governance
-* Executive Decision Support
+To build a comprehensive Laboratory Operations Intelligence Platform that enables healthcare organizations to improve quality management, workflow automation, compliance monitoring, operational visibility, audit governance, and executive decision-making through intelligent laboratory operations.
 
 ---
 
-# Author
+## Author
 
-Developed by DocMeNN
+**DocMeNN**
 
-Focused on healthcare technology, laboratory informatics, operational intelligence, workflow automation, and quality management systems.
+Healthcare Technology • Laboratory Informatics • Workflow Automation • Operational Intelligence • Quality Management Systems
 
 ---
 
 ## Project Status
 
-Active Development
+🚧 Active Development
 
-Phase 19 — Dynamic Workflow Intelligence Engine
+Current Phase: **Phase 19 — Dynamic Workflow Intelligence Engine**
