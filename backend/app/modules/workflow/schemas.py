@@ -9,7 +9,7 @@ Phase 19 Foundation
 Workflow Runtime Engine
 """
 
-from app.schemas.workflow import (
+from backend.app.schemas.workflow import (
     WorkflowTransitionCreate,
     WorkflowTransitionResponse,
 )

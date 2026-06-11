@@ -1,4 +1,4 @@
-# backend/app/modules/assignment/route.py
+# backend/app/modules/assignment/routes.py
 
 """
 Assignment Routes
@@ -17,13 +17,13 @@ MeRulz Compliance
 
 from fastapi import APIRouter, HTTPException
 
-from app.schemas.assignment import (
+from backend.app.modules.assignment.schemas import (
     AssignmentCreate,
     AssignmentResponse,
     AssignmentHistoryResponse,
 )
 
-from app.modules.assignment.service import (
+from backend.app.modules.assignment.service import (
     get_assignments,
     get_assignment,
     get_assignment_history,
@@ -72,7 +72,9 @@ def get_request_assignment(
 
 @router.get(
     "/history/{request_id}",
-    response_model=list[AssignmentHistoryResponse],
+    response_model=list[
+        AssignmentHistoryResponse
+    ],
 )
 def assignment_history(
     request_id: str,
@@ -81,7 +83,9 @@ def assignment_history(
     Returns assignment history.
     """
 
-    return get_assignment_history(request_id)
+    return get_assignment_history(
+        request_id
+    )
 
 
 @router.post(
@@ -98,8 +102,12 @@ def assign_request(
     return create_assignment(
         request_id=payload.request_id,
         assignee_id=payload.assignee_id,
-        assignment_strategy=payload.assignment_strategy,
+        assignment_strategy=(
+            payload.assignment_strategy
+        ),
         assigned_by=payload.assigned_by,
         department=payload.department,
-        assignment_notes=payload.assignment_notes,
+        assignment_notes=(
+            payload.assignment_notes
+        ),
     )

@@ -1,5 +1,3 @@
-# backend/app/modules/requests/service.py
-
 """
 Request Service
 ---------------
@@ -19,10 +17,13 @@ MeRulz Compliance
 from datetime import datetime
 from typing import List, Optional
 
-from app.models.request import Request
+from backend.app.models.request import (
+    Request,
+)
 
-
-_requests_store: List[Request] = []
+_requests_store: List[
+    Request
+] = []
 
 
 def get_requests() -> List[Request]:
@@ -33,24 +34,34 @@ def get_requests() -> List[Request]:
     return _requests_store
 
 
-def get_request_by_id(request_id: str) -> Optional[Request]:
+def get_request_by_id(
+    request_id: str,
+) -> Optional[Request]:
     """
     Returns a request by ID.
     """
 
     for request in _requests_store:
-        if request.request_id == request_id:
+
+        if (
+            request.request_id
+            == request_id
+        ):
             return request
 
     return None
 
 
-def create_request(request: Request) -> Request:
+def create_request(
+    request: Request,
+) -> Request:
     """
     Creates a new request.
     """
 
-    _requests_store.append(request)
+    _requests_store.append(
+        request
+    )
 
     return request
 
@@ -66,7 +77,9 @@ def update_request(
     Updates an existing request.
     """
 
-    request = get_request_by_id(request_id)
+    request = get_request_by_id(
+        request_id
+    )
 
     if request is None:
         return None
@@ -75,14 +88,20 @@ def update_request(
         request.title = title
 
     if description is not None:
-        request.description = description
+        request.description = (
+            description
+        )
 
     if priority is not None:
-        request.priority = priority
+        request.priority = (
+            priority
+        )
 
     if status is not None:
         request.status = status
 
-    request.updated_at = datetime.utcnow()
+    request.updated_at = (
+        datetime.utcnow()
+    )
 
     return request

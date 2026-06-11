@@ -1,0 +1,10 @@
+SAME AS ABOVE 
+
+assignment_strategy =in assignment router
+
+MANUAL
+AUTO
+ROUND_ROBIN
+SKILL_BASED
+WORKLOAD_BASED
+AI_ASSISTED

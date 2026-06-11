@@ -15,15 +15,18 @@ MeRulz Compliance
 - Modular architecture
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import (
+    APIRouter,
+    HTTPException,
+)
 
-from app.schemas.sla import (
+from backend.app.schemas.sla import (
     SLACreate,
     SLAResponse,
     SLAMetricsResponse,
 )
 
-from app.modules.sla.service import (
+from backend.app.modules.sla.service import (
     create_sla,
     get_slas,
     get_sla,
@@ -72,7 +75,9 @@ def get_request_sla(
     Returns SLA by request.
     """
 
-    sla = get_sla(request_id)
+    sla = get_sla(
+        request_id
+    )
 
     if sla is None:
         raise HTTPException(

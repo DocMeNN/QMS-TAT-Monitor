@@ -17,12 +17,12 @@ MeRulz Compliance
 
 from fastapi import APIRouter
 
-from app.schemas.queue import (
+from backend.app.modules.queue.schemas import (
     QueueItemCreate,
     QueueItemResponse,
 )
 
-from app.modules.queue.service import (
+from backend.app.modules.queue.service import (
     get_queue_items,
     register_queue_item,
     get_queue_metrics,
@@ -43,7 +43,10 @@ def queue_metrics():
     return get_queue_metrics()
 
 
-@router.get("/items", response_model=list[QueueItemResponse])
+@router.get(
+    "/items",
+    response_model=list[QueueItemResponse],
+)
 def list_queue_items():
     """
     Returns all queue items.

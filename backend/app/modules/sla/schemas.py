@@ -9,7 +9,7 @@ Phase 21 Foundation
 SLA Clock Engine
 """
 
-from app.schemas.sla import (
+from backend.app.schemas.sla import (
     SLACreate,
     SLAResponse,
     SLAMetricsResponse,

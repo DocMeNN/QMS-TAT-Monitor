@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { TimelineResponse } from "../types/workspace";
+import type { TimelineResponse } from "../types/workspace";
 
 interface RequestTimelineDrawerProps {
   timeline: TimelineResponse | null;

@@ -18,7 +18,7 @@ MeRulz Compliance
 - RBAC-ready
 """
 
-from app.modules.workflow_rules.constants import (
+from backend.app.modules.workflow_rules.constants import (
     WORKFLOW_TRANSITIONS,
     ROLE_PERMISSIONS,
 )

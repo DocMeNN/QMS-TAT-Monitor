@@ -17,11 +17,11 @@ MeRulz Compliance
 
 from fastapi import APIRouter
 
-from app.modules.workflow_rules.service import (
+from backend.app.modules.workflow_rules.service import (
     validate_transition,
 )
 
-from app.modules.workflow_rules.schemas import (
+from backend.app.modules.workflow_rules.schemas import (
     TransitionValidationRequest,
     TransitionValidationResponse,
 )

@@ -15,14 +15,17 @@ MeRulz Compliance
 - Modular architecture
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import (
+    APIRouter,
+    HTTPException,
+)
 
-from app.schemas.workflow import (
+from backend.app.schemas.workflow import (
     WorkflowTransitionCreate,
     WorkflowTransitionResponse,
 )
 
-from app.modules.workflow.service import (
+from backend.app.modules.workflow.service import (
     get_workflow_history,
     get_request_workflow_history,
     is_valid_transition,
@@ -37,7 +40,9 @@ router = APIRouter(
 
 @router.get(
     "/history",
-    response_model=list[WorkflowTransitionResponse],
+    response_model=list[
+        WorkflowTransitionResponse
+    ],
 )
 def list_workflow_history():
     """
@@ -49,7 +54,9 @@ def list_workflow_history():
 
 @router.get(
     "/history/{request_id}",
-    response_model=list[WorkflowTransitionResponse],
+    response_model=list[
+        WorkflowTransitionResponse
+    ],
 )
 def request_workflow_history(
     request_id: str,
@@ -59,14 +66,18 @@ def request_workflow_history(
     for a request.
     """
 
-    return get_request_workflow_history(
-        request_id=request_id,
+    return (
+        get_request_workflow_history(
+            request_id=request_id,
+        )
     )
 
 
 @router.post(
     "/transition",
-    response_model=WorkflowTransitionResponse,
+    response_model=(
+        WorkflowTransitionResponse
+    ),
 )
 def transition_request(
     payload: WorkflowTransitionCreate,
@@ -93,5 +104,7 @@ def transition_request(
         from_status=payload.from_status,
         to_status=payload.to_status,
         performed_by=payload.performed_by,
-        transition_reason=payload.transition_reason,
+        transition_reason=(
+            payload.transition_reason
+        ),
     )

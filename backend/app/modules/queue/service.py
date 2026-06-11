@@ -20,7 +20,9 @@ MeRulz Compliance
 from datetime import datetime
 from typing import List, Optional
 
-from app.models.queue import QueueItem
+from backend.app.models.queue import (
+    QueueItem,
+)
 
 
 _queue_store: List[QueueItem] = []

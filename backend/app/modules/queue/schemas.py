@@ -17,7 +17,7 @@ MeRulz Compliance
 - SLA-ready
 """
 
-from app.schemas.queue import (
+from backend.app.schemas.queue import (
     QueueItemCreate,
     QueueItemResponse,
 )

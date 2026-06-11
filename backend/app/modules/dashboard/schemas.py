@@ -23,10 +23,6 @@ MeRulz Compliance
 from pydantic import BaseModel
 
 
-# ============================================================
-# Core Metrics Schema
-# ============================================================
-
 class DashboardMetrics(BaseModel):
     """
     Primary dashboard KPI metrics.
@@ -38,10 +34,6 @@ class DashboardMetrics(BaseModel):
     breached_sla: int
 
 
-# ============================================================
-# Generic Trend Point Schema
-# ============================================================
-
 class TrendPoint(BaseModel):
     """
     Standardized chart data point
@@ -51,10 +43,6 @@ class TrendPoint(BaseModel):
     label: str
     value: float
 
-
-# ============================================================
-# Dashboard Analytics Response
-# ============================================================
 
 class DashboardAnalytics(BaseModel):
     """

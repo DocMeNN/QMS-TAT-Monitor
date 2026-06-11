@@ -18,16 +18,23 @@ MeRulz Compliance
 - Reporting-ready
 """
 
-from datetime import datetime, timedelta
-from typing import List, Optional
+from datetime import (
+    datetime,
+    timedelta,
+)
+from typing import (
+    List,
+    Optional,
+)
 
-from app.models.sla import (
+from backend.app.models.sla import (
     SLARecord,
     SLAMetrics,
 )
 
-
-_sla_store: List[SLARecord] = []
+_sla_store: List[
+    SLARecord
+] = []
 
 
 def create_sla(
@@ -38,10 +45,15 @@ def create_sla(
     Creates SLA tracking record.
     """
 
-    started_at = datetime.utcnow()
+    started_at = (
+        datetime.utcnow()
+    )
 
-    due_at = started_at + timedelta(
-        hours=sla_hours,
+    due_at = (
+        started_at
+        + timedelta(
+            hours=sla_hours,
+        )
     )
 
     sla = SLARecord(
@@ -51,7 +63,9 @@ def create_sla(
         due_at=due_at,
     )
 
-    _sla_store.append(sla)
+    _sla_store.append(
+        sla
+    )
 
     return sla
 
@@ -72,7 +86,11 @@ def get_sla(
     """
 
     for sla in _sla_store:
-        if sla.request_id == request_id:
+
+        if (
+            sla.request_id
+            == request_id
+        ):
             return sla
 
     return None
@@ -85,17 +103,28 @@ def complete_sla(
     Marks SLA as completed.
     """
 
-    sla = get_sla(request_id)
+    sla = get_sla(
+        request_id
+    )
 
     if sla is None:
         return None
 
-    sla.completed_at = datetime.utcnow()
+    sla.completed_at = (
+        datetime.utcnow()
+    )
 
-    if sla.completed_at > sla.due_at:
-        sla.status = "BREACHED"
+    if (
+        sla.completed_at
+        > sla.due_at
+    ):
+        sla.status = (
+            "BREACHED"
+        )
     else:
-        sla.status = "COMPLETED"
+        sla.status = (
+            "COMPLETED"
+        )
 
     return sla
 
@@ -105,7 +134,9 @@ def update_sla_statuses() -> None:
     Refreshes SLA statuses.
     """
 
-    now = datetime.utcnow()
+    now = (
+        datetime.utcnow()
+    )
 
     for sla in _sla_store:
 
@@ -116,17 +147,27 @@ def update_sla_statuses() -> None:
             continue
 
         remaining = (
-            sla.due_at - now
+            sla.due_at
+            - now
         ).total_seconds() / 3600
 
         if remaining <= 0:
-            sla.status = "BREACHED"
+
+            sla.status = (
+                "BREACHED"
+            )
 
         elif remaining <= 2:
-            sla.status = "AT_RISK"
+
+            sla.status = (
+                "AT_RISK"
+            )
 
         else:
-            sla.status = "ACTIVE"
+
+            sla.status = (
+                "ACTIVE"
+            )
 
 
 def get_sla_metrics() -> SLAMetrics:
@@ -136,30 +177,56 @@ def get_sla_metrics() -> SLAMetrics:
 
     update_sla_statuses()
 
-    total = len(_sla_store)
+    total = len(
+        _sla_store
+    )
 
     active = len(
-        [x for x in _sla_store if x.status == "ACTIVE"]
+        [
+            item
+            for item in _sla_store
+            if item.status
+            == "ACTIVE"
+        ]
     )
 
     completed = len(
-        [x for x in _sla_store if x.status == "COMPLETED"]
+        [
+            item
+            for item in _sla_store
+            if item.status
+            == "COMPLETED"
+        ]
     )
 
     breached = len(
-        [x for x in _sla_store if x.status == "BREACHED"]
+        [
+            item
+            for item in _sla_store
+            if item.status
+            == "BREACHED"
+        ]
     )
 
     at_risk = len(
-        [x for x in _sla_store if x.status == "AT_RISK"]
+        [
+            item
+            for item in _sla_store
+            if item.status
+            == "AT_RISK"
+        ]
     )
 
     compliance = 100.0
 
     if total > 0:
+
         compliance = round(
             (
-                (total - breached)
+                (
+                    total
+                    - breached
+                )
                 / total
             )
             * 100,
@@ -172,5 +239,7 @@ def get_sla_metrics() -> SLAMetrics:
         completed=completed,
         breached=breached,
         at_risk=at_risk,
-        compliance_percentage=compliance,
+        compliance_percentage=(
+            compliance
+        ),
     )

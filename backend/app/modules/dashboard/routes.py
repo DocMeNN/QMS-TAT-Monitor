@@ -1,18 +1,49 @@
 # backend/app/modules/dashboard/routes.py
 
 """
-Dashboard routes
+Dashboard Routes
+----------------
+Analytics dashboard endpoints.
+
+Phase 30 Foundation
+Operational Intelligence Dashboard
+
+MeRulz Compliance
 -----------------
-Analytics dashboard endpoints
+- Fully typed
+- Fully documented
+- Swagger-ready
+- Production-ready
 """
 
 from fastapi import APIRouter
-from .service import get_dashboard_data
-from .schemas import DashboardAnalytics
 
-router = APIRouter()
+from backend.app.modules.dashboard.schemas import (
+    DashboardAnalytics,
+)
+from backend.app.modules.dashboard.service import (
+    get_dashboard_data,
+)
+
+router = APIRouter(
+    prefix="/dashboard",
+    tags=["Dashboard"],
+)
 
 
-@router.get("/dashboard", response_model=DashboardAnalytics)
-def dashboard():
+@router.get(
+    "/",
+    response_model=DashboardAnalytics,
+    summary="Retrieve dashboard analytics",
+    description=(
+        "Returns operational dashboard metrics, "
+        "workflow statistics, queue visibility, "
+        "and monitoring intelligence."
+    ),
+)
+def dashboard() -> DashboardAnalytics:
+    """
+    Returns dashboard analytics.
+    """
+
     return get_dashboard_data()

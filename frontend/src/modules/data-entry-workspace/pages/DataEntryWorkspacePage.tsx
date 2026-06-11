@@ -13,8 +13,8 @@ import WorkspaceHeader from "../components/WorkspaceHeader";
 
 import RequestSummaryCards from "../components/RequestSummaryCards";
 
-import RequestSearchPanel, {
-  RequestSearchFilters,
+import RequestSearchPanel,  {
+  type RequestSearchFilters,
 } from "../components/RequestSearchPanel";
 
 import MyRequestsTable from "../components/MyRequestsTable";
@@ -41,7 +41,7 @@ export const DataEntryWorkspacePage: React.FC =
     } = useWorkspace();
 
     const [
-      activeFilters,
+      _activeFilters,
       setActiveFilters,
     ] =
       useState<RequestSearchFilters>(

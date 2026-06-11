@@ -15,62 +15,49 @@ MeRulz Compliance
 - API-ready
 """
 
-from dataclasses import dataclass
-from typing import Optional
+from pydantic import BaseModel
 
 
-@dataclass
-class CreateApprovalRequest:
+class CreateApprovalRequest(BaseModel):
     request_id: str
-
     workflow_id: str
-
     approval_type: str
-
     approval_level: str
-
     requested_by: str
-
     assigned_to: str
+    comments: str | None = None
 
-    comments: Optional[str] = None
 
-
-@dataclass
-class ApprovalResponse:
+class ApprovalResponse(BaseModel):
     approval_id: str
-
     request_id: str
-
     workflow_id: str
-
     approval_type: str
-
     approval_level: str
-
     status: str
-
     decision: str
-
     assigned_to: str
 
 
-@dataclass
-class ApproveRequest:
+class ApproveRequest(BaseModel):
     reviewed_by: str
+    comments: str | None = None
 
-    comments: Optional[str] = None
 
-
-@dataclass
-class RejectRequest:
+class RejectRequest(BaseModel):
     reviewed_by: str
+    comments: str | None = None
 
-    comments: Optional[str] = None
 
-
-@dataclass
-class ReturnRequest:
+class ReturnRequest(BaseModel):
     reviewed_by: str
+    comments: str | None = None
 
-    comments: Optional[str] = None
+
+__all__ = [
+    "CreateApprovalRequest",
+    "ApprovalResponse",
+    "ApproveRequest",
+    "RejectRequest",
+    "ReturnRequest",
+]

@@ -1,16 +1,47 @@
 # backend/app/modules/history/routes.py
 
+"""
+History Routes
+--------------
+Unified request history endpoints.
+
+Phase 30 Wave 6B
+History Timeline Engine
+
+MeRulz Compliance
+-----------------
+- Fully typed
+- Fully documented
+- Audit-ready
+"""
+
 from fastapi import APIRouter
 
-router = APIRouter()
+from backend.app.modules.history.schemas import (
+    HistoryResponse,
+)
+
+from backend.app.modules.history.service import (
+    history_service,
+)
+
+router = APIRouter(
+    prefix="/history",
+    tags=["History"],
+)
 
 
-@router.get("/history")
-def history():
-    return [
-        {"date": "Mon", "value": 5.2},
-        {"date": "Tue", "value": 4.8},
-        {"date": "Wed", "value": 4.4},
-        {"date": "Thu", "value": 5.0},
-        {"date": "Fri", "value": 4.6},
-    ]
+@router.get(
+    "/{request_id}",
+    response_model=HistoryResponse,
+)
+def get_request_history(
+    request_id: str,
+):
+    """
+    Returns complete request history.
+    """
+
+    return history_service.get_request_history(
+        request_id=request_id,
+    )

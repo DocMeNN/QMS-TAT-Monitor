@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { WorkspaceRequestSummary } from "../types/workspace";
+import type { WorkspaceRequestSummary } from "../types/workspace";
 
 interface MyRequestsTableProps {
   requests: WorkspaceRequestSummary[];

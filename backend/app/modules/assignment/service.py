@@ -19,14 +19,19 @@ MeRulz Compliance
 from datetime import datetime
 from typing import List, Optional
 
-from app.models.assignment import (
+from backend.app.models.assignment import (
     Assignment,
     AssignmentHistory,
 )
 
 
-_assignment_store: List[Assignment] = []
-_assignment_history_store: List[AssignmentHistory] = []
+_assignment_store: List[
+    Assignment
+] = []
+
+_assignment_history_store: List[
+    AssignmentHistory
+] = []
 
 
 def get_assignments() -> List[Assignment]:
@@ -45,7 +50,11 @@ def get_assignment(
     """
 
     for assignment in _assignment_store:
-        if assignment.request_id == request_id:
+
+        if (
+            assignment.request_id
+            == request_id
+        ):
             return assignment
 
     return None
@@ -60,8 +69,10 @@ def get_assignment_history(
 
     return [
         item
-        for item in _assignment_history_store
-        if item.request_id == request_id
+        for item
+        in _assignment_history_store
+        if item.request_id
+        == request_id
     ]
 
 
@@ -80,14 +91,18 @@ def create_assignment(
     assignment = Assignment(
         request_id=request_id,
         assignee_id=assignee_id,
-        assignment_strategy=assignment_strategy,
+        assignment_strategy=(
+            assignment_strategy
+        ),
         assigned_by=assigned_by,
         assigned_at=datetime.utcnow(),
         department=department,
         assignment_notes=assignment_notes,
     )
 
-    _assignment_store.append(assignment)
+    _assignment_store.append(
+        assignment
+    )
 
     history = AssignmentHistory(
         request_id=request_id,
@@ -99,7 +114,9 @@ def create_assignment(
         strategy=assignment_strategy,
     )
 
-    _assignment_history_store.append(history)
+    _assignment_history_store.append(
+        history
+    )
 
     return assignment
 
@@ -114,26 +131,38 @@ def reassign_request(
     Reassigns an existing request.
     """
 
-    assignment = get_assignment(request_id)
+    assignment = get_assignment(
+        request_id
+    )
 
     if assignment is None:
         return None
 
-    previous_assignee = assignment.assignee_id
+    previous_assignee = (
+        assignment.assignee_id
+    )
 
-    assignment.assignee_id = new_assignee
+    assignment.assignee_id = (
+        new_assignee
+    )
 
     history = AssignmentHistory(
         request_id=request_id,
-        previous_assignee=previous_assignee,
+        previous_assignee=(
+            previous_assignee
+        ),
         new_assignee=new_assignee,
         action="REASSIGNED",
         performed_by=performed_by,
         performed_at=datetime.utcnow(),
         reason=reason,
-        strategy=assignment.assignment_strategy,
+        strategy=(
+            assignment.assignment_strategy
+        ),
     )
 
-    _assignment_history_store.append(history)
+    _assignment_history_store.append(
+        history
+    )
 
     return assignment

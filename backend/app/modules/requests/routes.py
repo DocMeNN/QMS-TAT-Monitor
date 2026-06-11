@@ -1,5 +1,3 @@
-# backend/app/modules/requests/routes.py
-
 """
 Request Routes
 --------------
@@ -21,14 +19,15 @@ from uuid import uuid4
 
 from fastapi import APIRouter, HTTPException
 
-from app.models.request import Request
-from app.schemas.request import (
+from backend.app.models.request import Request
+
+from backend.app.schemas.request import (
     RequestCreate,
     RequestUpdate,
     RequestResponse,
 )
 
-from app.modules.requests.service import (
+from backend.app.modules.requests.service import (
     get_requests,
     get_request_by_id,
     create_request,
@@ -41,7 +40,10 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=list[RequestResponse])
+@router.get(
+    "/",
+    response_model=list[RequestResponse],
+)
 def list_requests():
     """
     Returns all requests.
@@ -50,13 +52,20 @@ def list_requests():
     return get_requests()
 
 
-@router.get("/{request_id}", response_model=RequestResponse)
-def get_request(request_id: str):
+@router.get(
+    "/{request_id}",
+    response_model=RequestResponse,
+)
+def get_request(
+    request_id: str,
+):
     """
     Returns a request by ID.
     """
 
-    request = get_request_by_id(request_id)
+    request = get_request_by_id(
+        request_id
+    )
 
     if request is None:
         raise HTTPException(
@@ -67,8 +76,13 @@ def get_request(request_id: str):
     return request
 
 
-@router.post("/", response_model=RequestResponse)
-def create_new_request(payload: RequestCreate):
+@router.post(
+    "/",
+    response_model=RequestResponse,
+)
+def create_new_request(
+    payload: RequestCreate,
+):
     """
     Creates a new request.
     """
@@ -76,7 +90,9 @@ def create_new_request(payload: RequestCreate):
     now = datetime.utcnow()
 
     request = Request(
-        request_id=f"REQ-{uuid4().hex[:8].upper()}",
+        request_id=(
+            f"REQ-{uuid4().hex[:8].upper()}"
+        ),
         title=payload.title,
         description=payload.description,
         request_type=payload.request_type,
@@ -88,10 +104,15 @@ def create_new_request(payload: RequestCreate):
         updated_at=now,
     )
 
-    return create_request(request)
+    return create_request(
+        request
+    )
 
 
-@router.put("/{request_id}", response_model=RequestResponse)
+@router.put(
+    "/{request_id}",
+    response_model=RequestResponse,
+)
 def update_existing_request(
     request_id: str,
     payload: RequestUpdate,

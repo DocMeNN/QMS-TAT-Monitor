@@ -15,49 +15,40 @@ MeRulz Compliance
 - API-ready
 """
 
-from dataclasses import dataclass
-from typing import Optional
+from pydantic import BaseModel
 
 
-@dataclass
-class CreateEscalationRequest:
+class CreateEscalationRequest(BaseModel):
     request_id: str
-
     workflow_id: str
-
     trigger_type: str
-
     escalation_level: str
-
     reason: str
-
     created_by: str
 
 
-@dataclass
-class EscalationResponse:
+class EscalationResponse(BaseModel):
     escalation_id: str
-
     request_id: str
-
     workflow_id: str
-
     trigger_type: str
-
     escalation_level: str
-
     status: str
-
     reason: str
 
 
-@dataclass
-class AcknowledgeEscalationRequest:
+class AcknowledgeEscalationRequest(BaseModel):
     acknowledged_by: str
 
 
-@dataclass
-class ResolveEscalationRequest:
+class ResolveEscalationRequest(BaseModel):
     resolved_by: str
+    resolution_notes: str | None = None
 
-    resolution_notes: Optional[str] = None
+
+__all__ = [
+    "CreateEscalationRequest",
+    "EscalationResponse",
+    "AcknowledgeEscalationRequest",
+    "ResolveEscalationRequest",
+]

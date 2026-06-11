@@ -17,11 +17,16 @@ MeRulz Compliance
 - Audit-ready
 """
 
-from datetime import datetime
-from typing import List
+from datetime import (
+    datetime,
+)
+from typing import (
+    List,
+)
 
-from app.models.workflow import WorkflowTransition
-
+from backend.app.models.workflow import (
+    WorkflowTransition,
+)
 
 WORKFLOW_STATES = [
     "SUBMITTED",
@@ -37,11 +42,13 @@ WORKFLOW_STATES = [
     "CANCELLED",
 ]
 
+_workflow_history: List[
+    WorkflowTransition
+] = []
 
-_workflow_history: List[WorkflowTransition] = []
 
-
-def get_workflow_history() -> List[WorkflowTransition]:
+def get_workflow_history(
+) -> List[WorkflowTransition]:
     """
     Returns all workflow transitions.
     """
@@ -59,8 +66,12 @@ def get_request_workflow_history(
 
     return [
         transition
-        for transition in _workflow_history
-        if transition.request_id == request_id
+        for transition
+        in _workflow_history
+        if (
+            transition.request_id
+            == request_id
+        )
     ]
 
 
@@ -73,9 +84,18 @@ def is_valid_transition(
     """
 
     allowed_transitions = {
-        "SUBMITTED": ["VALIDATED", "CANCELLED"],
-        "VALIDATED": ["ASSIGNED", "CANCELLED"],
-        "ASSIGNED": ["IN_PROGRESS", "ON_HOLD"],
+        "SUBMITTED": [
+            "VALIDATED",
+            "CANCELLED",
+        ],
+        "VALIDATED": [
+            "ASSIGNED",
+            "CANCELLED",
+        ],
+        "ASSIGNED": [
+            "IN_PROGRESS",
+            "ON_HOLD",
+        ],
         "IN_PROGRESS": [
             "PENDING_REVIEW",
             "ON_HOLD",
@@ -85,8 +105,12 @@ def is_valid_transition(
             "APPROVED",
             "RETURNED",
         ],
-        "APPROVED": ["COMPLETED"],
-        "COMPLETED": ["CLOSED"],
+        "APPROVED": [
+            "COMPLETED",
+        ],
+        "COMPLETED": [
+            "CLOSED",
+        ],
         "ON_HOLD": [
             "IN_PROGRESS",
             "CANCELLED",
@@ -98,8 +122,12 @@ def is_valid_transition(
     }
 
     return (
-        from_status in allowed_transitions
-        and to_status in allowed_transitions[from_status]
+        from_status
+        in allowed_transitions
+        and to_status
+        in allowed_transitions[
+            from_status
+        ]
     )
 
 
@@ -108,21 +136,31 @@ def create_transition(
     from_status: str,
     to_status: str,
     performed_by: str,
-    transition_reason: str | None = None,
+    transition_reason: (
+        str | None
+    ) = None,
 ) -> WorkflowTransition:
     """
     Creates workflow transition record.
     """
 
-    transition = WorkflowTransition(
-        request_id=request_id,
-        from_status=from_status,
-        to_status=to_status,
-        performed_by=performed_by,
-        transition_reason=transition_reason,
-        transitioned_at=datetime.utcnow(),
+    transition = (
+        WorkflowTransition(
+            request_id=request_id,
+            from_status=from_status,
+            to_status=to_status,
+            performed_by=performed_by,
+            transition_reason=(
+                transition_reason
+            ),
+            transitioned_at=(
+                datetime.utcnow()
+            ),
+        )
     )
 
-    _workflow_history.append(transition)
+    _workflow_history.append(
+        transition
+    )
 
     return transition

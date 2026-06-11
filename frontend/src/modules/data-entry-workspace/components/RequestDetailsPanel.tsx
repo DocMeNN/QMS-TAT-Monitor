@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { WorkspaceRequestDetails } from "../types/workspace";
+import type { WorkspaceRequestDetails } from "../types/workspace";
 
 interface RequestDetailsPanelProps {
   request: WorkspaceRequestDetails | null;
