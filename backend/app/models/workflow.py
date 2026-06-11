@@ -9,6 +9,9 @@ for laboratory requests.
 Phase 19 Foundation
 Workflow Runtime Preparation
 
+Phase 30
+Runtime Validation Hardening
+
 MeRulz Compliance
 -----------------
 - Fully typed
@@ -21,6 +24,10 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
+from backend.app.modules.workflow.constants import (
+    RequestStatus,
+)
+
 
 @dataclass
 class WorkflowTransition:
@@ -31,8 +38,9 @@ class WorkflowTransition:
 
     request_id: str
 
-    from_status: str
-    to_status: str
+    from_status: RequestStatus
+
+    to_status: RequestStatus
 
     performed_by: str
 

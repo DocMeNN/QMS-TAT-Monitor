@@ -9,42 +9,81 @@ for laboratory requests.
 Phase 19 Foundation
 Workflow Runtime Engine
 
+Phase 30
+Runtime Validation Hardening
+
 MeRulz Compliance
 -----------------
 - Fully typed
 - Fully documented
 - Modular architecture
 - Audit-ready
+- Validation-governed
 """
 
-from datetime import (
-    datetime,
-)
-from typing import (
-    List,
-)
+from datetime import datetime
+from typing import Dict
+from typing import List
 
 from backend.app.models.workflow import (
     WorkflowTransition,
 )
 
-WORKFLOW_STATES = [
-    "SUBMITTED",
-    "VALIDATED",
-    "ASSIGNED",
-    "IN_PROGRESS",
-    "PENDING_REVIEW",
-    "APPROVED",
-    "COMPLETED",
-    "CLOSED",
-    "ON_HOLD",
-    "ESCALATED",
-    "CANCELLED",
-]
+from backend.app.modules.workflow.constants import (
+    RequestStatus,
+)
 
 _workflow_history: List[
     WorkflowTransition
 ] = []
+
+
+_ALLOWED_TRANSITIONS: Dict[
+    RequestStatus,
+    List[RequestStatus],
+] = {
+    RequestStatus.SUBMITTED: [
+        RequestStatus.VALIDATED,
+        RequestStatus.CANCELLED,
+    ],
+    RequestStatus.VALIDATED: [
+        RequestStatus.ASSIGNED,
+        RequestStatus.CANCELLED,
+    ],
+    RequestStatus.ASSIGNED: [
+        RequestStatus.IN_PROGRESS,
+        RequestStatus.ON_HOLD,
+    ],
+    RequestStatus.IN_PROGRESS: [
+        RequestStatus.PENDING_REVIEW,
+        RequestStatus.ON_HOLD,
+        RequestStatus.ESCALATED,
+    ],
+    RequestStatus.PENDING_REVIEW: [
+        RequestStatus.APPROVED,
+        RequestStatus.RETURNED,
+    ],
+    RequestStatus.RETURNED: [
+        RequestStatus.IN_PROGRESS,
+        RequestStatus.PENDING_REVIEW,
+    ],
+    RequestStatus.APPROVED: [
+        RequestStatus.COMPLETED,
+    ],
+    RequestStatus.COMPLETED: [
+        RequestStatus.CLOSED,
+    ],
+    RequestStatus.ON_HOLD: [
+        RequestStatus.IN_PROGRESS,
+        RequestStatus.CANCELLED,
+    ],
+    RequestStatus.ESCALATED: [
+        RequestStatus.IN_PROGRESS,
+        RequestStatus.PENDING_REVIEW,
+    ],
+    RequestStatus.CANCELLED: [],
+    RequestStatus.CLOSED: [],
+}
 
 
 def get_workflow_history(
@@ -75,70 +114,44 @@ def get_request_workflow_history(
     ]
 
 
+def get_allowed_transitions(
+    status: RequestStatus,
+) -> List[RequestStatus]:
+    """
+    Returns allowed transitions
+    for a workflow status.
+    """
+
+    return (
+        _ALLOWED_TRANSITIONS.get(
+            status,
+            [],
+        )
+    )
+
+
 def is_valid_transition(
-    from_status: str,
-    to_status: str,
+    from_status: RequestStatus,
+    to_status: RequestStatus,
 ) -> bool:
     """
     Validates workflow transition.
     """
 
-    allowed_transitions = {
-        "SUBMITTED": [
-            "VALIDATED",
-            "CANCELLED",
-        ],
-        "VALIDATED": [
-            "ASSIGNED",
-            "CANCELLED",
-        ],
-        "ASSIGNED": [
-            "IN_PROGRESS",
-            "ON_HOLD",
-        ],
-        "IN_PROGRESS": [
-            "PENDING_REVIEW",
-            "ON_HOLD",
-            "ESCALATED",
-        ],
-        "PENDING_REVIEW": [
-            "APPROVED",
-            "RETURNED",
-        ],
-        "APPROVED": [
-            "COMPLETED",
-        ],
-        "COMPLETED": [
-            "CLOSED",
-        ],
-        "ON_HOLD": [
-            "IN_PROGRESS",
-            "CANCELLED",
-        ],
-        "ESCALATED": [
-            "IN_PROGRESS",
-            "PENDING_REVIEW",
-        ],
-    }
-
     return (
-        from_status
-        in allowed_transitions
-        and to_status
-        in allowed_transitions[
+        to_status
+        in get_allowed_transitions(
             from_status
-        ]
+        )
     )
 
 
 def create_transition(
     request_id: str,
-    from_status: str,
-    to_status: str,
+    from_status: RequestStatus,
+    to_status: RequestStatus,
     performed_by: str,
-    transition_reason: (
-        str | None
-    ) = None,
+    transition_reason: str | None = None,
 ) -> WorkflowTransition:
     """
     Creates workflow transition record.

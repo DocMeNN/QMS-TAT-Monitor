@@ -9,36 +9,76 @@ workflow processing engine.
 Phase 19 Foundation
 Workflow Runtime Preparation
 
+Phase 30
+Runtime Validation Hardening
+
 MeRulz Compliance
 -----------------
 - Fully typed
 - Fully documented
 - Workflow-ready
 - Audit-ready
+- Validation-governed
 """
 
 from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
+from pydantic import Field
+
+from backend.app.modules.workflow.constants import (
+    RequestStatus,
+    REQUEST_ID_PATTERN,
+)
 
 
-class WorkflowTransitionCreate(BaseModel):
-    request_id: str
-    from_status: str
-    to_status: str
+class WorkflowTransitionCreate(
+    BaseModel
+):
+    """
+    Workflow transition request.
+    """
+
+    request_id: str = Field(
+        pattern=REQUEST_ID_PATTERN,
+    )
+
+    from_status: RequestStatus
+
+    to_status: RequestStatus
+
     performed_by: str
-    transition_reason: Optional[str] = None
+
+    transition_reason: Optional[
+        str
+    ] = None
 
 
-class WorkflowTransitionResponse(BaseModel):
-    request_id: str
+class WorkflowTransitionResponse(
+    BaseModel
+):
+    """
+    Workflow transition response.
+    """
 
-    from_status: str
-    to_status: str
+    request_id: str = Field(
+        pattern=REQUEST_ID_PATTERN,
+    )
+
+    from_status: RequestStatus
+
+    to_status: RequestStatus
 
     performed_by: str
 
-    transition_reason: Optional[str] = None
+    transition_reason: Optional[
+        str
+    ] = None
 
-    transitioned_at: Optional[datetime] = None
+    transitioned_at: Optional[
+        datetime
+    ] = None
+
+    class Config:
+        from_attributes = True
