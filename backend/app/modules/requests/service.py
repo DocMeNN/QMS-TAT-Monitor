@@ -8,6 +8,12 @@ Handles request lifecycle operations.
 Phase 15 Foundation
 Request Intake Engine
 
+Phase 30
+Request Domain Refactoring
+
+Sprint 2
+Patient Demographics & Multi-Department Support
+
 MeRulz Compliance
 -----------------
 - Fully typed
@@ -16,11 +22,21 @@ MeRulz Compliance
 - Workflow-ready
 """
 
-from datetime import datetime
-from typing import List, Optional
+from datetime import (
+    datetime,
+    UTC,
+)
+
+from typing import List
+from typing import Optional
 
 from backend.app.models.request import (
     Request,
+)
+
+from backend.app.modules.requests.constants import (
+    Department,
+    RequestType,
 )
 
 _requests_store: List[
@@ -54,6 +70,55 @@ def get_request_by_id(
     return None
 
 
+def request_exists(
+    request_id: str,
+) -> bool:
+    """
+    Returns True if request exists.
+    """
+
+    return (
+        get_request_by_id(
+            request_id
+        )
+        is not None
+    )
+
+
+def is_duplicate_request(
+    request: Request,
+) -> bool:
+    """
+    Detects duplicate requests.
+
+    Duplicate detection is based on
+    clinical context rather than the
+    platform user performing data entry.
+    """
+
+    for existing_request in (
+        _requests_store
+    ):
+
+        if (
+            existing_request.test_request.strip().upper()
+            == request.test_request.strip().upper()
+            and
+            existing_request.clinical_information.strip().upper()
+            == request.clinical_information.strip().upper()
+            and
+            existing_request.request_type
+            == request.request_type
+            and
+            existing_request.referring_medical_practitioner.strip().upper()
+            ==
+            request.referring_medical_practitioner.strip().upper()
+        ):
+            return True
+
+    return False
+
+
 def create_request(
     request: Request,
 ) -> Request:
@@ -70,13 +135,26 @@ def create_request(
 
 def update_request(
     request_id: str,
-    title: Optional[str] = None,
-    description: Optional[str] = None,
-    priority: Optional[str] = None,
-    status: Optional[str] = None,
+    test_request: Optional[str] = None,
+    clinical_information: Optional[
+        str
+    ] = None,
+    referring_medical_practitioner: Optional[
+        str
+    ] = None,
+    request_type: Optional[
+        RequestType
+    ] = None,
+    departments: Optional[
+        list[Department]
+    ] = None,
+    priority=None,
+    status=None,
 ) -> Optional[Request]:
     """
     Updates an existing request.
+
+    Age and sex remain immutable.
     """
 
     request = get_request_by_id(
@@ -86,12 +164,32 @@ def update_request(
     if request is None:
         return None
 
-    if title is not None:
-        request.title = title
+    if test_request is not None:
+        request.test_request = (
+            test_request
+        )
 
-    if description is not None:
-        request.description = (
-            description
+    if clinical_information is not None:
+        request.clinical_information = (
+            clinical_information
+        )
+
+    if (
+        referring_medical_practitioner
+        is not None
+    ):
+        request.referring_medical_practitioner = (
+            referring_medical_practitioner
+        )
+
+    if request_type is not None:
+        request.request_type = (
+            request_type
+        )
+
+    if departments is not None:
+        request.departments = (
+            departments
         )
 
     if priority is not None:
@@ -103,7 +201,7 @@ def update_request(
         request.status = status
 
     request.updated_at = (
-        datetime.utcnow()
+        datetime.now(UTC)
     )
 
     return request

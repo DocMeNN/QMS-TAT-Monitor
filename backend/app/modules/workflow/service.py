@@ -3,8 +3,7 @@
 """
 Workflow Service
 ----------------
-Handles workflow state transitions
-for laboratory requests.
+Workflow runtime engine.
 
 Phase 19 Foundation
 Workflow Runtime Engine
@@ -12,16 +11,23 @@ Workflow Runtime Engine
 Phase 30
 Runtime Validation Hardening
 
+Sprint 3
+Wave 3D Preparation
+
 MeRulz Compliance
 -----------------
 - Fully typed
 - Fully documented
-- Modular architecture
+- Workflow-ready
 - Audit-ready
 - Validation-governed
 """
 
-from datetime import datetime
+from datetime import (
+    datetime,
+    UTC,
+)
+
 from typing import Dict
 from typing import List
 
@@ -29,14 +35,25 @@ from backend.app.models.workflow import (
     WorkflowTransition,
 )
 
+from backend.app.modules.requests.service import (
+    get_request_by_id,
+)
+
 from backend.app.modules.workflow.constants import (
     RequestStatus,
 )
+
+# ------------------------------------------------------------------
+# Workflow History Store
+# ------------------------------------------------------------------
 
 _workflow_history: List[
     WorkflowTransition
 ] = []
 
+# ------------------------------------------------------------------
+# Allowed Workflow Transitions
+# ------------------------------------------------------------------
 
 _ALLOWED_TRANSITIONS: Dict[
     RequestStatus,
@@ -53,6 +70,7 @@ _ALLOWED_TRANSITIONS: Dict[
     RequestStatus.ASSIGNED: [
         RequestStatus.IN_PROGRESS,
         RequestStatus.ON_HOLD,
+        RequestStatus.ESCALATED,
     ],
     RequestStatus.IN_PROGRESS: [
         RequestStatus.PENDING_REVIEW,
@@ -65,7 +83,6 @@ _ALLOWED_TRANSITIONS: Dict[
     ],
     RequestStatus.RETURNED: [
         RequestStatus.IN_PROGRESS,
-        RequestStatus.PENDING_REVIEW,
     ],
     RequestStatus.APPROVED: [
         RequestStatus.COMPLETED,
@@ -79,17 +96,21 @@ _ALLOWED_TRANSITIONS: Dict[
     ],
     RequestStatus.ESCALATED: [
         RequestStatus.IN_PROGRESS,
-        RequestStatus.PENDING_REVIEW,
+        RequestStatus.APPROVED,
     ],
     RequestStatus.CANCELLED: [],
     RequestStatus.CLOSED: [],
 }
 
+# ------------------------------------------------------------------
+# Query Functions
+# ------------------------------------------------------------------
+
 
 def get_workflow_history(
 ) -> List[WorkflowTransition]:
     """
-    Returns all workflow transitions.
+    Returns complete workflow history.
     """
 
     return _workflow_history
@@ -107,27 +128,14 @@ def get_request_workflow_history(
         transition
         for transition
         in _workflow_history
-        if (
-            transition.request_id
-            == request_id
-        )
+        if transition.request_id
+        == request_id
     ]
 
 
-def get_allowed_transitions(
-    status: RequestStatus,
-) -> List[RequestStatus]:
-    """
-    Returns allowed transitions
-    for a workflow status.
-    """
-
-    return (
-        _ALLOWED_TRANSITIONS.get(
-            status,
-            [],
-        )
-    )
+# ------------------------------------------------------------------
+# Validation Functions
+# ------------------------------------------------------------------
 
 
 def is_valid_transition(
@@ -140,10 +148,16 @@ def is_valid_transition(
 
     return (
         to_status
-        in get_allowed_transitions(
-            from_status
+        in _ALLOWED_TRANSITIONS.get(
+            from_status,
+            [],
         )
     )
+
+
+# ------------------------------------------------------------------
+# Transition Engine
+# ------------------------------------------------------------------
 
 
 def create_transition(
@@ -154,8 +168,17 @@ def create_transition(
     transition_reason: str | None = None,
 ) -> WorkflowTransition:
     """
-    Creates workflow transition record.
+    Creates workflow transition.
     """
+
+    request = get_request_by_id(
+        request_id
+    )
+
+    if request is None:
+        raise ValueError(
+            "Request not found"
+        )
 
     transition = (
         WorkflowTransition(
@@ -167,8 +190,20 @@ def create_transition(
                 transition_reason
             ),
             transitioned_at=(
-                datetime.utcnow()
+                datetime.now(
+                    UTC
+                )
             ),
+        )
+    )
+
+    request.status = (
+        to_status
+    )
+
+    request.updated_at = (
+        datetime.now(
+            UTC
         )
     )
 

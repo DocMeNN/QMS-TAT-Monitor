@@ -16,7 +16,7 @@ MeRulz Compliance
 - Audit-ready
 """
 
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from uuid import uuid4
 
 from backend.app.models.approval import ApprovalRecord
@@ -59,7 +59,7 @@ class ApprovalService:
             decision=DEFAULT_APPROVAL_DECISION,
             requested_by=requested_by,
             assigned_to=assigned_to,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(UTC),
             comments=comments,
         )
 
@@ -109,7 +109,7 @@ class ApprovalService:
         approval.status = APPROVAL_STATUS_APPROVED
         approval.decision = APPROVAL_STATUS_APPROVED
         approval.reviewed_by = reviewed_by
-        approval.reviewed_at = datetime.utcnow()
+        approval.reviewed_at = datetime.now(UTC)
 
         if comments:
             approval.comments = comments
@@ -131,7 +131,7 @@ class ApprovalService:
         approval.status = APPROVAL_STATUS_REJECTED
         approval.decision = APPROVAL_STATUS_REJECTED
         approval.reviewed_by = reviewed_by
-        approval.reviewed_at = datetime.utcnow()
+        approval.reviewed_at = datetime.now(UTC)
 
         if comments:
             approval.comments = comments
@@ -153,7 +153,7 @@ class ApprovalService:
         approval.status = APPROVAL_STATUS_RETURNED
         approval.decision = APPROVAL_STATUS_RETURNED
         approval.reviewed_by = reviewed_by
-        approval.reviewed_at = datetime.utcnow()
+        approval.reviewed_at = datetime.now(UTC)
 
         if comments:
             approval.comments = comments

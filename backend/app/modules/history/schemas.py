@@ -7,7 +7,7 @@ Phase 30 - Wave 6B
 History Timeline Engine
 """
 
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from typing import List, Optional
 
 from pydantic import BaseModel

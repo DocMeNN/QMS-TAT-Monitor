@@ -3,26 +3,46 @@
 """
 Assignment Constants
 --------------------
-Assignment engine constants and supported
-assignment strategies.
+Assignment governance constants.
 
-Phase 20 Foundation
-Assignment Engine
+Sprint 3
+Wave 3B
+Assignment Governance Hardening
 """
 
-ASSIGNMENT_STATUS_ASSIGNED = "ASSIGNED"
-ASSIGNMENT_STATUS_REASSIGNED = "REASSIGNED"
+from enum import Enum
 
-STRATEGY_MANUAL = "MANUAL"
-STRATEGY_DEPARTMENT = "DEPARTMENT"
-STRATEGY_SKILL = "SKILL"
-STRATEGY_CAPACITY = "CAPACITY"
-STRATEGY_HYBRID = "HYBRID"
 
-SUPPORTED_STRATEGIES = [
-    STRATEGY_MANUAL,
-    STRATEGY_DEPARTMENT,
-    STRATEGY_SKILL,
-    STRATEGY_CAPACITY,
-    STRATEGY_HYBRID,
+class AssignmentStrategy(
+    str,
+    Enum,
+):
+    MANUAL = "MANUAL"
+
+    DEPARTMENT = (
+        "DEPARTMENT"
+    )
+
+    SKILL = "SKILL"
+
+    CAPACITY = (
+        "CAPACITY"
+    )
+
+    HYBRID = "HYBRID"
+
+
+ASSIGNMENT_STATUS_ASSIGNED = (
+    "ASSIGNED"
+)
+
+ASSIGNMENT_STATUS_REASSIGNED = (
+    "REASSIGNED"
+)
+
+
+__all__ = [
+    "AssignmentStrategy",
+    "ASSIGNMENT_STATUS_ASSIGNED",
+    "ASSIGNMENT_STATUS_REASSIGNED",
 ]

@@ -16,7 +16,7 @@ MeRulz Compliance
 - Session-ready
 """
 
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from datetime import timedelta
 from uuid import uuid4
 
@@ -62,9 +62,9 @@ class AuthenticationService:
                     username=user.username,
                     access_token=access_token,
                     status=SESSION_STATUS_ACTIVE,
-                    created_at=datetime.utcnow(),
+                    created_at=datetime.now(UTC),
                     expires_at=(
-                        datetime.utcnow()
+                        datetime.now(UTC)
                         + timedelta(
                             minutes=ACCESS_TOKEN_EXPIRY_MINUTES
                         )
@@ -75,7 +75,7 @@ class AuthenticationService:
                     session.session_id
                 ] = session
 
-                user.last_login = datetime.utcnow()
+                user.last_login = datetime.now(UTC)
 
                 return AuthenticationResult(
                     success=True,

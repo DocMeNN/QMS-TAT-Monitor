@@ -20,7 +20,7 @@ MeRulz Compliance
 from __future__ import annotations
 
 from collections import defaultdict
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from typing import Dict
 
 from backend.app.modules.approval.service import (

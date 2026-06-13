@@ -17,7 +17,7 @@ MeRulz Compliance
 - Security-ready
 """
 
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from uuid import uuid4
 
 from backend.app.models.policy import (
@@ -58,7 +58,7 @@ class PolicyService:
             policy_type=policy_type,
             status=DEFAULT_POLICY_STATUS.value,
             created_by=created_by,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(UTC),
         )
 
         self._policies[

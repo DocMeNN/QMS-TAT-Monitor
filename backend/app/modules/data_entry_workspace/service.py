@@ -13,7 +13,7 @@ The service intentionally owns no domain entities.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from typing import List, Optional
 from uuid import uuid4
 
@@ -561,7 +561,7 @@ class DataEntryWorkspaceService:
         remaining_minutes = int(
             (
                 sla.due_at
-                - datetime.utcnow()
+                - datetime.now(UTC)
             ).total_seconds()
             / 60
         )
@@ -660,7 +660,7 @@ class DataEntryWorkspaceService:
             title=title,
             description=description,
             actor=actor,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(UTC),
         )
 
 

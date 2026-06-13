@@ -3,19 +3,16 @@
 """
 Assignment Routes
 -----------------
-Assignment ownership endpoints.
+Assignment governance endpoints.
 
-Phase 20 Foundation
-Assignment Engine
-
-MeRulz Compliance
------------------
-- Fully typed
-- Fully documented
-- Modular architecture
+Sprint 3
+Wave 3B
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import (
+    APIRouter,
+    HTTPException,
+)
 
 from backend.app.modules.assignment.schemas import (
     AssignmentCreate,
@@ -38,33 +35,38 @@ router = APIRouter(
 
 @router.get(
     "/",
-    response_model=list[AssignmentResponse],
+    response_model=list[
+        AssignmentResponse
+    ],
 )
 def list_assignments():
-    """
-    Returns all assignments.
-    """
 
     return get_assignments()
 
 
 @router.get(
     "/{request_id}",
-    response_model=AssignmentResponse,
+    response_model=(
+        AssignmentResponse
+    ),
 )
 def get_request_assignment(
     request_id: str,
 ):
-    """
-    Returns assignment for request.
-    """
 
-    assignment = get_assignment(request_id)
+    assignment = (
+        get_assignment(
+            request_id
+        )
+    )
 
     if assignment is None:
+
         raise HTTPException(
             status_code=404,
-            detail="Assignment not found",
+            detail=(
+                "Assignment not found"
+            ),
         )
 
     return assignment
@@ -79,35 +81,52 @@ def get_request_assignment(
 def assignment_history(
     request_id: str,
 ):
-    """
-    Returns assignment history.
-    """
 
-    return get_assignment_history(
-        request_id
+    return (
+        get_assignment_history(
+            request_id
+        )
     )
 
 
 @router.post(
     "/",
-    response_model=AssignmentResponse,
+    response_model=(
+        AssignmentResponse
+    ),
 )
 def assign_request(
     payload: AssignmentCreate,
 ):
-    """
-    Creates assignment.
-    """
 
-    return create_assignment(
-        request_id=payload.request_id,
-        assignee_id=payload.assignee_id,
-        assignment_strategy=(
-            payload.assignment_strategy
-        ),
-        assigned_by=payload.assigned_by,
-        department=payload.department,
-        assignment_notes=(
-            payload.assignment_notes
-        ),
-    )
+    try:
+
+        return (
+            create_assignment(
+                request_id=(
+                    payload.request_id
+                ),
+                assignee_id=(
+                    payload.assignee_id
+                ),
+                assignment_strategy=(
+                    payload.assignment_strategy
+                ),
+                assigned_by=(
+                    payload.assigned_by
+                ),
+                department=(
+                    payload.department
+                ),
+                assignment_notes=(
+                    payload.assignment_notes
+                ),
+            )
+        )
+
+    except ValueError as exc:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(exc),
+        )

@@ -7,15 +7,16 @@ Shared request contracts used throughout
 the operational workflow platform.
 
 Phase 30
-Runtime Validation Hardening
+Request Domain Refactoring
+
+Sprint 2
+Patient Demographics & Multi-Department Support
 
 MeRulz Compliance
 -----------------
 - Fully typed
 - Fully documented
 - Validation-governed
-- Workflow-ready
-- Audit-ready
 """
 
 from datetime import datetime
@@ -23,6 +24,12 @@ from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import Field
+
+from backend.app.modules.requests.constants import (
+    Department,
+    RequestType,
+    Sex,
+)
 
 from backend.app.modules.workflow.constants import (
     PriorityLevel,
@@ -36,18 +43,28 @@ class RequestCreate(BaseModel):
     Request creation contract.
     """
 
-    title: str
+    test_request: str
 
-    description: str
+    clinical_information: str
 
-    request_type: str
+    referring_medical_practitioner: str
+
+    request_type: RequestType
 
     priority: PriorityLevel
 
-    sla_hours: int = Field(
-        default=24,
-        ge=1,
+    age: int = Field(
+        ge=0,
+        le=150,
     )
+
+    sex: Sex
+
+    departments: list[
+        Department
+    ]
+
+    sla_hours: int = 24
 
     created_by: str
 
@@ -55,11 +72,39 @@ class RequestCreate(BaseModel):
 class RequestUpdate(BaseModel):
     """
     Request update contract.
+
+    Immutable fields:
+    - request_id
+    - age
+    - sex
+    - created_by
+    - created_at
+    - referring_medical_practitioner
+
+    Editable fields:
+    - test_request
+    - clinical_information
+    - request_type
+    - departments
+    - priority
+    - status
     """
 
-    title: Optional[str] = None
+    test_request: Optional[
+        str
+    ] = None
 
-    description: Optional[str] = None
+    clinical_information: Optional[
+        str
+    ] = None
+
+    request_type: Optional[
+        RequestType
+    ] = None
+
+    departments: Optional[
+        list[Department]
+    ] = None
 
     priority: Optional[
         PriorityLevel
@@ -79,17 +124,29 @@ class RequestResponse(BaseModel):
         pattern=REQUEST_ID_PATTERN,
     )
 
-    title: str
+    test_request: str
 
-    description: str
+    clinical_information: str
 
-    request_type: str
+    referring_medical_practitioner: str
+
+    request_type: RequestType
 
     priority: PriorityLevel
 
     status: RequestStatus
 
-    assigned_to: Optional[str] = None
+    age: int
+
+    sex: Sex
+
+    departments: list[
+        Department
+    ]
+
+    assigned_to: Optional[
+        str
+    ] = None
 
     assigned_department: Optional[
         str
@@ -101,11 +158,11 @@ class RequestResponse(BaseModel):
 
     created_at: Optional[
         datetime
-    ] = None
+    ]
 
     updated_at: Optional[
         datetime
-    ] = None
+    ]
 
     class Config:
         from_attributes = True

@@ -16,7 +16,7 @@ MeRulz Compliance
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import (datetime, UTC,)
 
 from pydantic import BaseModel
 
@@ -79,7 +79,7 @@ class WorkspaceHealthService:
 
         return WorkspaceHealthResponse(
             status="HEALTHY",
-            checked_at=datetime.utcnow(),
+            checked_at=datetime.now(UTC),
             alerts_engine=True,
             notifications_engine=True,
             activity_engine=True,

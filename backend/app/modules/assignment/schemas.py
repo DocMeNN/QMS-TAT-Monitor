@@ -5,15 +5,9 @@ Assignment Module Schemas
 -------------------------
 Assignment request and response contracts.
 
-Phase 20 Foundation
-Assignment Engine
-
-MeRulz Compliance
------------------
-- Fully typed
-- Fully documented
-- Workflow-ready
-- Audit-ready
+Sprint 3
+Wave 3B
+Assignment Governance Hardening
 """
 
 from datetime import datetime
@@ -21,12 +15,42 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from backend.app.modules.assignment.constants import (
+    AssignmentStrategy,
+)
 
-class AssignmentCreate(BaseModel):
-    """
-    Assignment creation payload.
-    """
+from backend.app.modules.requests.constants import (
+    Department,
+)
 
+
+class AssignmentCreate(
+    BaseModel
+):
+    request_id: str
+
+    assignee_id: str
+
+    assignment_strategy: (
+        AssignmentStrategy
+    )
+
+    assigned_by: str
+
+    department: (
+        Optional[
+            Department
+        ]
+    ) = None
+
+    assignment_notes: (
+        Optional[str]
+    ) = None
+
+
+class AssignmentResponse(
+    BaseModel
+):
     request_id: str
 
     assignee_id: str
@@ -35,39 +59,29 @@ class AssignmentCreate(BaseModel):
 
     assigned_by: str
 
-    department: Optional[str] = None
+    assigned_at: (
+        Optional[
+            datetime
+        ]
+    ) = None
 
-    assignment_notes: Optional[str] = None
+    department: (
+        Optional[str]
+    ) = None
+
+    assignment_notes: (
+        Optional[str]
+    ) = None
 
 
-class AssignmentResponse(BaseModel):
-    """
-    Assignment response payload.
-    """
-
+class AssignmentHistoryResponse(
+    BaseModel
+):
     request_id: str
 
-    assignee_id: str
-
-    assignment_strategy: str
-
-    assigned_by: str
-
-    assigned_at: Optional[datetime] = None
-
-    department: Optional[str] = None
-
-    assignment_notes: Optional[str] = None
-
-
-class AssignmentHistoryResponse(BaseModel):
-    """
-    Assignment history response payload.
-    """
-
-    request_id: str
-
-    previous_assignee: Optional[str] = None
+    previous_assignee: (
+        Optional[str]
+    ) = None
 
     new_assignee: str
 
@@ -75,15 +89,16 @@ class AssignmentHistoryResponse(BaseModel):
 
     performed_by: str
 
-    performed_at: Optional[datetime] = None
+    performed_at: (
+        Optional[
+            datetime
+        ]
+    ) = None
 
-    reason: Optional[str] = None
+    reason: (
+        Optional[str]
+    ) = None
 
-    strategy: Optional[str] = None
-
-
-__all__ = [
-    "AssignmentCreate",
-    "AssignmentResponse",
-    "AssignmentHistoryResponse",
-]
+    strategy: (
+        Optional[str]
+    ) = None

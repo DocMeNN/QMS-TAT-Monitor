@@ -16,7 +16,7 @@ MeRulz Compliance
 - Multi-workspace ready
 """
 
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from uuid import uuid4
 
 from backend.app.models.workspace import (
@@ -60,7 +60,7 @@ class WorkspaceService:
             status=DEFAULT_WORKSPACE_STATUS.value,
             description=description,
             created_by=created_by,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(UTC),
         )
 
         self._workspaces[
@@ -125,7 +125,7 @@ class WorkspaceService:
             workspace_id=workspace_id,
             user_id=user_id,
             assigned_by=assigned_by,
-            assigned_at=datetime.utcnow(),
+            assigned_at=datetime.now(UTC),
         )
 
         self._memberships.append(

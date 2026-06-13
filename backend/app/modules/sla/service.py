@@ -21,6 +21,7 @@ MeRulz Compliance
 from datetime import (
     datetime,
     timedelta,
+    UTC
 )
 from typing import (
     List,
@@ -46,7 +47,7 @@ def create_sla(
     """
 
     started_at = (
-        datetime.utcnow()
+        datetime.now(UTC)
     )
 
     due_at = (
@@ -111,7 +112,7 @@ def complete_sla(
         return None
 
     sla.completed_at = (
-        datetime.utcnow()
+        datetime.now(UTC)
     )
 
     if (
@@ -135,7 +136,7 @@ def update_sla_statuses() -> None:
     """
 
     now = (
-        datetime.utcnow()
+        datetime.now(UTC)
     )
 
     for sla in _sla_store:

@@ -24,7 +24,7 @@ MeRulz Compliance
 - Timezone-safe timestamp generation
 """
 
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from datetime import timedelta
 from datetime import timezone
 

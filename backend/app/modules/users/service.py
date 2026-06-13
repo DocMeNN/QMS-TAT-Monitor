@@ -17,7 +17,7 @@ MeRulz Compliance
 - Audit-ready
 """
 
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from uuid import uuid4
 
 from backend.app.models.user import UserAccount
@@ -56,7 +56,7 @@ class UserService:
             full_name=full_name,
             role=role,
             status=DEFAULT_USER_STATUS.value,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(UTC),
             hashed_password=password,
         )
 

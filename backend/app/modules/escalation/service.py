@@ -16,7 +16,7 @@ MeRulz Compliance
 - SLA-ready
 """
 
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from uuid import uuid4
 
 from backend.app.models.escalation import EscalationRecord
@@ -54,7 +54,7 @@ class EscalationService:
             reason=reason,
             status=ESCALATION_STATUS_OPEN,
             created_by=created_by,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(UTC),
         )
 
         self._escalations[escalation.escalation_id] = escalation
@@ -87,7 +87,7 @@ class EscalationService:
 
         escalation.status = ESCALATION_STATUS_ACKNOWLEDGED
         escalation.acknowledged_by = acknowledged_by
-        escalation.acknowledged_at = datetime.utcnow()
+        escalation.acknowledged_at = datetime.now(UTC)
 
         return escalation
 
@@ -105,7 +105,7 @@ class EscalationService:
 
         escalation.status = ESCALATION_STATUS_RESOLVED
         escalation.resolved_by = resolved_by
-        escalation.resolved_at = datetime.utcnow()
+        escalation.resolved_at = datetime.now(UTC)
         escalation.resolution_notes = resolution_notes
 
         return escalation

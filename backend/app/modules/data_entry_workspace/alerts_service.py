@@ -20,7 +20,7 @@ and will be implemented in future phases.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import (datetime, UTC,), timedelta
 from typing import List
 from uuid import uuid4
 
@@ -97,7 +97,7 @@ class WorkspaceAlertsService:
                         message=(
                             "Request exceeded SLA target."
                         ),
-                        created_at=datetime.utcnow(),
+                        created_at=datetime.now(UTC),
                     )
                 )
 
@@ -123,7 +123,7 @@ class WorkspaceAlertsService:
                         message=(
                             "Request approaching SLA breach."
                         ),
-                        created_at=datetime.utcnow(),
+                        created_at=datetime.now(UTC),
                     )
                 )
 
@@ -162,7 +162,7 @@ class WorkspaceAlertsService:
                     message=(
                         "Request has not been assigned."
                     ),
-                    created_at=datetime.utcnow(),
+                    created_at=datetime.now(UTC),
                 )
             )
 
@@ -206,7 +206,7 @@ class WorkspaceAlertsService:
                     message=(
                         "Request currently under escalation."
                     ),
-                    created_at=datetime.utcnow(),
+                    created_at=datetime.now(UTC),
                 )
             )
 
@@ -227,7 +227,7 @@ class WorkspaceAlertsService:
         )
 
         threshold = (
-            datetime.utcnow()
+            datetime.now(UTC)
             - timedelta(
                 hours=APPROVAL_BACKLOG_HOURS
             )
@@ -263,7 +263,7 @@ class WorkspaceAlertsService:
                     message=(
                         "Approval awaiting action."
                     ),
-                    created_at=datetime.utcnow(),
+                    created_at=datetime.now(UTC),
                 )
             )
 

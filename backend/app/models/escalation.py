@@ -20,7 +20,7 @@ MeRulz Compliance
 """
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import (datetime, UTC,)
 from enum import Enum
 from typing import Optional
 
