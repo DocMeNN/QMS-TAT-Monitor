@@ -9,6 +9,9 @@ laboratory requests.
 Phase 24
 Approval Workflow Layer
 
+Phase 30
+Runtime Validation Hardening
+
 MeRulz Compliance
 -----------------
 - Fully typed
@@ -19,7 +22,7 @@ MeRulz Compliance
 """
 
 from dataclasses import dataclass
-from datetime import (datetime, UTC,)
+from datetime import datetime
 from enum import Enum
 from typing import Optional
 
@@ -57,19 +60,23 @@ class ApprovalDecision(str, Enum):
 
 @dataclass
 class ApprovalRecord:
+    """
+    Represents an approval workflow item.
+    """
+
     approval_id: str
 
     request_id: str
 
     workflow_id: str
 
-    approval_type: str
+    approval_type: ApprovalType
 
-    approval_level: str
+    approval_level: ApprovalLevel
 
-    status: str
+    status: ApprovalStatus
 
-    decision: str
+    decision: ApprovalDecision
 
     requested_by: str
 

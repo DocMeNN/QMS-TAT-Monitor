@@ -5,25 +5,21 @@ Assignment API Schemas
 ----------------------
 Assignment ownership and routing contracts.
 
-Phase 20 Foundation
-Assignment Engine Preparation
+Mountain 7
+Wave 7A
 
-MeRulz Compliance
------------------
-- Fully typed
-- Fully documented
-- Workflow-ready
-- Audit-ready
-- SLA-ready
+Assignment Ownership Integrity
 """
 
-from datetime import (datetime, UTC,)
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
 
 
-class AssignmentCreate(BaseModel):
+class AssignmentCreate(
+    BaseModel
+):
     request_id: str
 
     assignee_id: str
@@ -32,12 +28,18 @@ class AssignmentCreate(BaseModel):
 
     assigned_by: str
 
-    department: Optional[str] = None
+    department: Optional[
+        str
+    ] = None
 
-    assignment_notes: Optional[str] = None
+    assignment_notes: Optional[
+        str
+    ] = None
 
 
-class AssignmentResponse(BaseModel):
+class AssignmentResponse(
+    BaseModel
+):
     request_id: str
 
     assignee_id: str
@@ -46,17 +48,29 @@ class AssignmentResponse(BaseModel):
 
     assigned_by: str
 
-    assigned_at: Optional[datetime] = None
+    status: str
 
-    department: Optional[str] = None
+    assigned_at: Optional[
+        datetime
+    ] = None
 
-    assignment_notes: Optional[str] = None
+    department: Optional[
+        str
+    ] = None
+
+    assignment_notes: Optional[
+        str
+    ] = None
 
 
-class AssignmentHistoryResponse(BaseModel):
+class AssignmentHistoryResponse(
+    BaseModel
+):
     request_id: str
 
-    previous_assignee: Optional[str] = None
+    previous_assignee: Optional[
+        str
+    ] = None
 
     new_assignee: str
 
@@ -64,8 +78,14 @@ class AssignmentHistoryResponse(BaseModel):
 
     performed_by: str
 
-    performed_at: Optional[datetime] = None
+    performed_at: Optional[
+        datetime
+    ] = None
 
-    reason: Optional[str] = None
+    reason: Optional[
+        str
+    ] = None
 
-    strategy: Optional[str] = None
+    strategy: Optional[
+        str
+    ] = None

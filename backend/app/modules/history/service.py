@@ -2,8 +2,8 @@
 
 """
 History Service
-
-Phase 30 - Wave 6B
+---------------
+Phase 30 Wave 6B
 History Timeline Engine
 
 Aggregates historical activity from:
@@ -12,6 +12,13 @@ Aggregates historical activity from:
 - assignment
 - escalation
 - approval
+
+MeRulz Compliance
+-----------------
+- Fully typed
+- Fully documented
+- Audit-ready
+- Validation-governed
 """
 
 from __future__ import annotations
@@ -21,22 +28,31 @@ from typing import List
 from backend.app.modules.approval.service import (
     approval_service,
 )
+
 from backend.app.modules.assignment.service import (
     get_assignment_history,
 )
+
 from backend.app.modules.escalation.service import (
     escalation_service,
 )
+
 from backend.app.modules.history.constants import (
     HISTORY_EVENT_APPROVAL,
     HISTORY_EVENT_ASSIGNMENT,
     HISTORY_EVENT_ESCALATION,
     HISTORY_EVENT_WORKFLOW,
 )
+
 from backend.app.modules.history.schemas import (
     HistoryEventResponse,
     HistoryResponse,
 )
+
+from backend.app.modules.requests.validators import (
+    validate_request_id,
+)
+
 from backend.app.modules.workflow.service import (
     get_request_workflow_history,
 )
@@ -55,6 +71,10 @@ class HistoryService:
         """
         Returns chronological request history.
         """
+
+        validate_request_id(
+            request_id
+        )
 
         events: List[
             HistoryEventResponse
@@ -85,7 +105,9 @@ class HistoryService:
         )
 
         events.sort(
-            key=lambda event: event.timestamp
+            key=lambda event: (
+                event.timestamp
+            )
         )
 
         return HistoryResponse(
@@ -96,7 +118,9 @@ class HistoryService:
     def _build_workflow_events(
         self,
         request_id: str,
-    ) -> List[HistoryEventResponse]:
+    ) -> List[
+        HistoryEventResponse
+    ]:
         """
         Build workflow history events.
         """
@@ -113,22 +137,29 @@ class HistoryService:
 
         for item in history:
 
-            if item.transitioned_at is None:
+            if (
+                item.transitioned_at
+                is None
+            ):
                 continue
 
             events.append(
                 HistoryEventResponse(
-                    event_type=HISTORY_EVENT_WORKFLOW,
+                    event_type=(
+                        HISTORY_EVENT_WORKFLOW
+                    ),
                     title=(
-                        f"{item.from_status}"
+                        f"{item.from_status.value}"
                         f" → "
-                        f"{item.to_status}"
+                        f"{item.to_status.value}"
                     ),
                     actor=item.performed_by,
                     description=(
                         item.transition_reason
                     ),
-                    timestamp=item.transitioned_at,
+                    timestamp=(
+                        item.transitioned_at
+                    ),
                 )
             )
 
@@ -137,7 +168,9 @@ class HistoryService:
     def _build_assignment_events(
         self,
         request_id: str,
-    ) -> List[HistoryEventResponse]:
+    ) -> List[
+        HistoryEventResponse
+    ]:
         """
         Build assignment history events.
         """
@@ -146,25 +179,34 @@ class HistoryService:
             HistoryEventResponse
         ] = []
 
-        history = get_assignment_history(
-            request_id
+        history = (
+            get_assignment_history(
+                request_id
+            )
         )
 
         for item in history:
 
-            if item.performed_at is None:
+            if (
+                item.performed_at
+                is None
+            ):
                 continue
 
             events.append(
                 HistoryEventResponse(
-                    event_type=HISTORY_EVENT_ASSIGNMENT,
+                    event_type=(
+                        HISTORY_EVENT_ASSIGNMENT
+                    ),
                     title=item.action,
                     actor=item.performed_by,
                     description=(
                         f"Assigned to "
                         f"{item.new_assignee}"
                     ),
-                    timestamp=item.performed_at,
+                    timestamp=(
+                        item.performed_at
+                    ),
                 )
             )
 
@@ -173,7 +215,9 @@ class HistoryService:
     def _build_escalation_events(
         self,
         request_id: str,
-    ) -> List[HistoryEventResponse]:
+    ) -> List[
+        HistoryEventResponse
+    ]:
         """
         Build escalation history events.
         """
@@ -194,9 +238,15 @@ class HistoryService:
 
             events.append(
                 HistoryEventResponse(
-                    event_type=HISTORY_EVENT_ESCALATION,
-                    title="Escalation Created",
-                    actor=escalation.created_by,
+                    event_type=(
+                        HISTORY_EVENT_ESCALATION
+                    ),
+                    title=(
+                        "Escalation Created"
+                    ),
+                    actor=(
+                        escalation.created_by
+                    ),
                     description=(
                         escalation.reason
                     ),
@@ -211,7 +261,9 @@ class HistoryService:
     def _build_approval_events(
         self,
         request_id: str,
-    ) -> List[HistoryEventResponse]:
+    ) -> List[
+        HistoryEventResponse
+    ]:
         """
         Build approval history events.
         """
@@ -232,9 +284,15 @@ class HistoryService:
 
             events.append(
                 HistoryEventResponse(
-                    event_type=HISTORY_EVENT_APPROVAL,
-                    title=approval.status,
-                    actor=approval.requested_by,
+                    event_type=(
+                        HISTORY_EVENT_APPROVAL
+                    ),
+                    title=(
+                        approval.status
+                    ),
+                    actor=(
+                        approval.requested_by
+                    ),
                     description=(
                         approval.comments
                     ),

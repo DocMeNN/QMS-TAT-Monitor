@@ -11,6 +11,12 @@ Queue Registration Engine
 Phase 30
 Runtime Governance Hardening
 
+Mountain 7
+Wave 7C + Wave 7E
+
+Queue Governance Hardening
+Service Layer Type Hardening
+
 MeRulz Compliance
 -----------------
 - Fully typed
@@ -34,6 +40,11 @@ from backend.app.models.queue import (
     QueueItem,
 )
 
+from backend.app.modules.queue.constants import (
+    QueuePriority,
+    QueueStatus,
+)
+
 from backend.app.modules.requests.service import (
     get_request_by_id,
 )
@@ -43,23 +54,20 @@ _queue_store: List[
 ] = []
 
 
-def get_queue_items() -> List[QueueItem]:
-    """
-    Returns all queue items.
-    """
-
+def get_queue_items() -> List[
+    QueueItem
+]:
     return _queue_store
 
 
 def get_queue_item_by_request_id(
     request_id: str,
-) -> Optional[QueueItem]:
-    """
-    Returns queue item by request ID.
-    """
-
-    for item in _queue_store:
-
+) -> Optional[
+    QueueItem
+]:
+    for item in (
+        _queue_store
+    ):
         if (
             item.request_id
             == request_id
@@ -72,10 +80,6 @@ def get_queue_item_by_request_id(
 def queue_item_exists(
     request_id: str,
 ) -> bool:
-    """
-    Returns True when queue item exists.
-    """
-
     return (
         get_queue_item_by_request_id(
             request_id
@@ -86,15 +90,16 @@ def queue_item_exists(
 
 def register_queue_item(
     request_id: str,
-    priority: str,
-    assigned_department: Optional[str] = None,
+    priority: QueuePriority,
+    assigned_department: Optional[
+        str
+    ] = None,
 ) -> QueueItem:
-    """
-    Registers request into queue.
-    """
 
-    request = get_request_by_id(
-        request_id
+    request = (
+        get_request_by_id(
+            request_id
+        )
     )
 
     if request is None:
@@ -113,11 +118,16 @@ def register_queue_item(
         request_id=request_id,
         priority=priority,
         queue_position=(
-            len(_queue_store) + 1
+            len(_queue_store)
+            + 1
         ),
-        status="QUEUED",
-        queued_at=datetime.now(
-            UTC
+        status=(
+            QueueStatus.QUEUED
+        ),
+        queued_at=(
+            datetime.now(
+                UTC
+            )
         ),
         assigned_department=(
             assigned_department
@@ -132,7 +142,8 @@ def register_queue_item(
     return queue_item
 
 
-def get_queue_metrics() -> dict:
+def get_queue_metrics(
+) -> dict[str, int]:
     """
     Returns queue summary metrics.
     """
@@ -144,15 +155,24 @@ def get_queue_metrics() -> dict:
     departments = len(
         {
             item.assigned_department
-            for item in _queue_store
-            if item.assigned_department
+            for item in (
+                _queue_store
+            )
+            if (
+                item.assigned_department
+            )
         }
     )
 
     return {
-        "total_items": queued_items,
-        "active_departments": departments,
+        "total_items": (
+            queued_items
+        ),
+        "active_departments": (
+            departments
+        ),
         "next_position": (
-            queued_items + 1
+            queued_items
+            + 1
         ),
     }

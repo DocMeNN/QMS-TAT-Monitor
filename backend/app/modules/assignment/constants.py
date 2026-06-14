@@ -6,8 +6,10 @@ Assignment Constants
 Assignment governance constants.
 
 Sprint 3
-Wave 3B
+Wave 3B + Mountain 7 Wave 7A
+
 Assignment Governance Hardening
+Assignment Ownership Integrity
 """
 
 from enum import Enum
@@ -19,30 +21,55 @@ class AssignmentStrategy(
 ):
     MANUAL = "MANUAL"
 
-    DEPARTMENT = (
-        "DEPARTMENT"
-    )
+    DEPARTMENT = "DEPARTMENT"
 
     SKILL = "SKILL"
 
-    CAPACITY = (
-        "CAPACITY"
-    )
+    CAPACITY = "CAPACITY"
 
     HYBRID = "HYBRID"
 
 
-ASSIGNMENT_STATUS_ASSIGNED = (
-    "ASSIGNED"
-)
+class AssignmentStatus(
+    str,
+    Enum,
+):
+    ACTIVE = "ACTIVE"
 
-ASSIGNMENT_STATUS_REASSIGNED = (
-    "REASSIGNED"
-)
+    REASSIGNED = (
+        "REASSIGNED"
+    )
+
+    COMPLETED = (
+        "COMPLETED"
+    )
+
+    CANCELLED = (
+        "CANCELLED"
+    )
+
+
+class AssignmentAction(
+    str,
+    Enum,
+):
+    ASSIGNED = "ASSIGNED"
+
+    REASSIGNED = (
+        "REASSIGNED"
+    )
+
+    COMPLETED = (
+        "COMPLETED"
+    )
+
+    CANCELLED = (
+        "CANCELLED"
+    )
 
 
 __all__ = [
     "AssignmentStrategy",
-    "ASSIGNMENT_STATUS_ASSIGNED",
-    "ASSIGNMENT_STATUS_REASSIGNED",
+    "AssignmentStatus",
+    "AssignmentAction",
 ]

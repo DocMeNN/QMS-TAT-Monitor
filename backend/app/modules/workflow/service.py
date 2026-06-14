@@ -11,8 +11,10 @@ Workflow Runtime Engine
 Phase 30
 Runtime Validation Hardening
 
-Sprint 3
-Wave 3D Preparation
+Mountain 7
+Wave 7D
+
+Workflow Runtime State Verification
 
 MeRulz Compliance
 -----------------
@@ -35,12 +37,17 @@ from backend.app.models.workflow import (
     WorkflowTransition,
 )
 
-from backend.app.modules.requests.service import (
-    get_request_by_id,
+from backend.app.modules.requests.validators import (
+    get_request_or_raise,
+    validate_request_id,
 )
 
 from backend.app.modules.workflow.constants import (
     RequestStatus,
+)
+
+from backend.app.modules.workflow.validators import (
+    validate_runtime_request_state,
 )
 
 # ------------------------------------------------------------------
@@ -124,6 +131,10 @@ def get_request_workflow_history(
     for a specific request.
     """
 
+    validate_request_id(
+        request_id
+    )
+
     return [
         transition
         for transition
@@ -169,15 +180,37 @@ def create_transition(
 ) -> WorkflowTransition:
     """
     Creates workflow transition.
+
+    Governance Rules
+    ----------------
+    - Request must exist
+    - Runtime state must match
+      transition source state
+    - Transition must be valid
     """
 
-    request = get_request_by_id(
-        request_id
+    request = (
+        get_request_or_raise(
+            request_id
+        )
     )
 
-    if request is None:
+    validate_runtime_request_state(
+        request=request,
+        expected_status=(
+            from_status
+        ),
+    )
+
+    if not is_valid_transition(
+        from_status=from_status,
+        to_status=to_status,
+    ):
         raise ValueError(
-            "Request not found"
+            (
+                "Invalid workflow "
+                "transition."
+            )
         )
 
     transition = (

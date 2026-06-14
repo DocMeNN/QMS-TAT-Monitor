@@ -21,7 +21,7 @@ MeRulz Compliance
 """
 
 from dataclasses import dataclass
-from datetime import (datetime, UTC,)
+from datetime import datetime
 from typing import Optional
 
 from backend.app.modules.workflow.constants import (

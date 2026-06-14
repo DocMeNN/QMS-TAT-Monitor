@@ -10,6 +10,9 @@ workflow exceptions.
 Phase 23
 Escalation Workflow Engine
 
+Phase 30
+Runtime Validation Hardening
+
 MeRulz Compliance
 -----------------
 - Fully typed
@@ -20,7 +23,7 @@ MeRulz Compliance
 """
 
 from dataclasses import dataclass
-from datetime import (datetime, UTC,)
+from datetime import datetime
 from enum import Enum
 from typing import Optional
 
@@ -49,28 +52,34 @@ class EscalationStatus(str, Enum):
 
 @dataclass
 class EscalationRecord:
+    """
+    Represents an escalation event.
+    """
+
     escalation_id: str
 
     request_id: str
 
     workflow_id: str
 
-    trigger_type: str
+    trigger_type: EscalationTrigger
 
-    escalation_level: str
+    escalation_level: EscalationLevel
 
     reason: str
 
-    status: str
+    status: EscalationStatus
 
     created_by: str
 
     created_at: datetime
 
     acknowledged_by: Optional[str] = None
+
     acknowledged_at: Optional[datetime] = None
 
     resolved_by: Optional[str] = None
+
     resolved_at: Optional[datetime] = None
 
     resolution_notes: Optional[str] = None

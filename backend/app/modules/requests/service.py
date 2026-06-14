@@ -14,6 +14,11 @@ Request Domain Refactoring
 Sprint 2
 Patient Demographics & Multi-Department Support
 
+Mountain 7
+Wave 7B
+
+Request Ownership Synchronization
+
 MeRulz Compliance
 -----------------
 - Fully typed
@@ -27,8 +32,10 @@ from datetime import (
     UTC,
 )
 
-from typing import List
-from typing import Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from backend.app.models.request import (
     Request,
@@ -39,15 +46,17 @@ from backend.app.modules.requests.constants import (
     RequestType,
 )
 
+from backend.app.modules.workflow.constants import (
+    PriorityLevel,
+    RequestStatus,
+)
+
 _requests_store: List[
     Request
 ] = []
 
 
 def get_requests() -> List[Request]:
-    """
-    Returns all requests.
-    """
 
     return _requests_store
 
@@ -55,11 +64,10 @@ def get_requests() -> List[Request]:
 def get_request_by_id(
     request_id: str,
 ) -> Optional[Request]:
-    """
-    Returns a request by ID.
-    """
 
-    for request in _requests_store:
+    for request in (
+        _requests_store
+    ):
 
         if (
             request.request_id
@@ -73,9 +81,6 @@ def get_request_by_id(
 def request_exists(
     request_id: str,
 ) -> bool:
-    """
-    Returns True if request exists.
-    """
 
     return (
         get_request_by_id(
@@ -88,13 +93,6 @@ def request_exists(
 def is_duplicate_request(
     request: Request,
 ) -> bool:
-    """
-    Detects duplicate requests.
-
-    Duplicate detection is based on
-    clinical context rather than the
-    platform user performing data entry.
-    """
 
     for existing_request in (
         _requests_store
@@ -122,9 +120,6 @@ def is_duplicate_request(
 def create_request(
     request: Request,
 ) -> Request:
-    """
-    Creates a new request.
-    """
 
     _requests_store.append(
         request
@@ -133,9 +128,55 @@ def create_request(
     return request
 
 
+def assign_request_owner(
+    request_id: str,
+    assignee_id: str,
+    assigned_department: Optional[
+        str
+    ] = None,
+) -> Optional[Request]:
+    """
+    Synchronizes request ownership
+    with assignment governance.
+
+    System-managed operation.
+    """
+
+    request = (
+        get_request_by_id(
+            request_id
+        )
+    )
+
+    if request is None:
+        return None
+
+    request.assigned_to = (
+        assignee_id
+    )
+
+    request.assigned_department = (
+        assigned_department
+    )
+
+    request.status = (
+        RequestStatus.ASSIGNED
+    )
+
+    request.updated_at = (
+        datetime.now(
+            UTC
+        )
+    )
+
+    return request
+
+
 def update_request(
     request_id: str,
-    test_request: Optional[str] = None,
+    test_request: Optional[
+        str
+    ] = None,
     clinical_information: Optional[
         str
     ] = None,
@@ -148,17 +189,18 @@ def update_request(
     departments: Optional[
         list[Department]
     ] = None,
-    priority=None,
-    status=None,
+    priority: Optional[
+        PriorityLevel
+    ] = None,
+    status: Optional[
+        RequestStatus
+    ] = None,
 ) -> Optional[Request]:
-    """
-    Updates an existing request.
 
-    Age and sex remain immutable.
-    """
-
-    request = get_request_by_id(
-        request_id
+    request = (
+        get_request_by_id(
+            request_id
+        )
     )
 
     if request is None:
@@ -198,10 +240,14 @@ def update_request(
         )
 
     if status is not None:
-        request.status = status
+        request.status = (
+            status
+        )
 
     request.updated_at = (
-        datetime.now(UTC)
+        datetime.now(
+            UTC
+        )
     )
 
     return request

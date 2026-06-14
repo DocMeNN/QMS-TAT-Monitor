@@ -6,8 +6,10 @@ Assignment Domain Model
 Represents ownership and routing of
 laboratory requests.
 
-Phase 20 Foundation
-Assignment Engine Preparation
+Mountain 7
+Wave 7A
+
+Assignment Ownership Integrity
 
 MeRulz Compliance
 -----------------
@@ -19,15 +21,14 @@ MeRulz Compliance
 """
 
 from dataclasses import dataclass
-from datetime import (datetime, UTC,)
+from datetime import datetime
 from typing import Optional
 
 
 @dataclass
 class Assignment:
     """
-    Represents the current ownership
-    of a laboratory request.
+    Current assignment record.
     """
 
     request_id: str
@@ -38,22 +39,33 @@ class Assignment:
 
     assigned_by: str
 
-    assigned_at: Optional[datetime] = None
+    status: str
 
-    department: Optional[str] = None
+    assigned_at: Optional[
+        datetime
+    ] = None
 
-    assignment_notes: Optional[str] = None
+    department: Optional[
+        str
+    ] = None
+
+    assignment_notes: Optional[
+        str
+    ] = None
 
 
 @dataclass
 class AssignmentHistory:
     """
-    Immutable audit record for assignment changes.
+    Immutable assignment
+    audit record.
     """
 
     request_id: str
 
-    previous_assignee: Optional[str]
+    previous_assignee: Optional[
+        str
+    ]
 
     new_assignee: str
 
@@ -61,8 +73,14 @@ class AssignmentHistory:
 
     performed_by: str
 
-    performed_at: Optional[datetime] = None
+    performed_at: Optional[
+        datetime
+    ] = None
 
-    reason: Optional[str] = None
+    reason: Optional[
+        str
+    ] = None
 
-    strategy: Optional[str] = None
+    strategy: Optional[
+        str
+    ] = None

@@ -9,6 +9,9 @@ for laboratory requests.
 Phase 21 Foundation
 SLA Clock Engine
 
+Phase 30
+Runtime Validation Hardening
+
 MeRulz Compliance
 -----------------
 - Fully typed
@@ -18,12 +21,17 @@ MeRulz Compliance
 """
 
 from dataclasses import dataclass
-from datetime import (datetime, UTC,)
+from datetime import datetime
 from typing import Optional
 
 
 @dataclass
 class SLARecord:
+    """
+    Represents SLA tracking state
+    for a laboratory request.
+    """
+
     request_id: str
 
     sla_hours: int
@@ -39,6 +47,10 @@ class SLARecord:
 
 @dataclass
 class SLAMetrics:
+    """
+    Aggregated SLA compliance metrics.
+    """
+
     total_tracked: int
 
     active: int
